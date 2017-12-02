@@ -19,7 +19,7 @@ namespace MandelBrot
         }
 
         //private double startX, startY, curX, curY;
-        private double m_Xmin, m_Xmax, m_Ymin, m_Ymax;
+        //private double m_Xmin, m_Xmax, m_Ymin, m_Ymax;
 
         public int MaxHerhalingen;
         public int zoom;
@@ -31,6 +31,10 @@ namespace MandelBrot
         private const double maxX = 1;
         private const double minY = -1.2;
         private const double maxY = 1.2;
+        double m_Xmin = minX;
+        double m_Xmax = maxX;
+        double m_Ymin = minY;
+        double m_Ymax = maxY;
 
         private void AdjustAspect()
         {
@@ -57,7 +61,7 @@ namespace MandelBrot
                 m_Ymax = mid + hgt / 2;
             }
         }
-
+        
         public void OK_Click(object sender, EventArgs e)
         {
             MaxHerhalingen = int.Parse(Herhalingen.Text);
@@ -79,8 +83,8 @@ namespace MandelBrot
            
             int wid = MandelPic.Width;
             int hgt = MandelPic.Height;
-            double dReaC = zoom * (m_Xmax - m_Xmin) / (wid - 1);
-            double dImaC = zoom * (m_Ymax - m_Ymin) / (hgt - 1);
+            double dReaC = (m_Xmax - m_Xmin) / (wid - 1);
+            double dImaC = (m_Ymax - m_Ymin) / (hgt - 1);
 
             //int num_colors = Colors.Count;
             double ReaC = m_Xmin;
@@ -94,7 +98,7 @@ namespace MandelBrot
                     double ReaZ2 = 0; //Z2r;
                     double ImaZ2 = 0; //Z2im;
                     int it = 1;
-                    do
+                    while ((it < MaxHerhalingen) && (ReaZ2 + ImaZ2 < maxd))
                     {
                         // Calculate Z(clr).
                         ReaZ2 = ReaZ * ReaZ;
@@ -102,8 +106,8 @@ namespace MandelBrot
                         ImaZ = 2 * ImaZ * ReaZ + ImaC;
                         ReaZ = ReaZ2 - ImaZ2 + ReaC;
                         it++;
-                    } while ((it < MaxHerhalingen) && (ReaZ2 + ImaZ2 < maxd));
-                    //Console.WriteLine(ImaZ + "+" + ReaZ);
+                    }
+                    //Console.WriteLine(ImaC);
                     // Set the pixel's value.
                     if (it < MaxHerhalingen)
                         if (it % 2 != 0)
