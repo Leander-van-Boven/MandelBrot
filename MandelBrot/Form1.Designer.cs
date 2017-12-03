@@ -70,7 +70,6 @@ namespace MandelBrot
             this.MandelPic.Size = new System.Drawing.Size(882, 772);
             this.MandelPic.TabIndex = 0;
             this.MandelPic.TabStop = false;
-            this.MandelPic.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.MandelPic_MouseDoubleClick);
             // 
             // Draw
             // 
@@ -140,6 +139,7 @@ namespace MandelBrot
             this.xMid.Name = "xMid";
             this.xMid.Size = new System.Drawing.Size(100, 27);
             this.xMid.Text = "0";
+            this.xMid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxEnter);
             // 
             // yMiddenToolStripMenuItem
             // 
@@ -154,6 +154,7 @@ namespace MandelBrot
             this.yMid.Name = "yMid";
             this.yMid.Size = new System.Drawing.Size(100, 27);
             this.yMid.Text = "0";
+            this.yMid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxEnter);
             // 
             // iterationsToolStripMenuItem
             // 
@@ -168,6 +169,7 @@ namespace MandelBrot
             this.Iterations.Name = "Iterations";
             this.Iterations.Size = new System.Drawing.Size(100, 27);
             this.Iterations.Text = "100";
+            this.Iterations.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxEnter);
             // 
             // scaleToolStripMenuItem
             // 
@@ -182,6 +184,7 @@ namespace MandelBrot
             this.ZoomScale.Name = "ZoomScale";
             this.ZoomScale.Size = new System.Drawing.Size(100, 27);
             this.ZoomScale.Text = "1";
+            this.ZoomScale.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxEnter);
             // 
             // toolStripSeparator1
             // 

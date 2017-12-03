@@ -28,15 +28,19 @@ namespace MandelBrot
         //public double Zr, Zim, Z2r, Z2im;
 
         private Bitmap MandelBit;
+        public List<Color> Colors = new List<Color>();
 
         private double minX = -2.5;
         private double maxX = 2;
         private double minY = -1.2;
         private double maxY = 1.2;
+
         double m_Xmin;
         double m_Xmax;
         double m_Ymin;
         double m_Ymax;
+        int it;
+        double mu;
 
         private void AdjustAspect()
         {
@@ -102,7 +106,7 @@ namespace MandelBrot
             double dReaC = (m_Xmax - m_Xmin) / (wid - 1);
             double dImaC = (m_Ymax - m_Ymin) / (hgt - 1);
 
-            //int num_colors = Colors.Count;
+            int num_colors = Colors.Count;
             double ReaC = m_Xmin;
             for (int X = 0; X < wid; X++)
             {
@@ -113,7 +117,7 @@ namespace MandelBrot
                     double ImaZ = 0; //Zim;
                     double ReaZ2 = 0; //Z2r;
                     double ImaZ2 = 0; //Z2im;
-                    int it = 1;
+                    it = 1;
                     while ((it < MaxIterations) && (ReaZ2 + ImaZ2 < maxd))
                     {
                         // Calculate Z(it).
@@ -124,13 +128,16 @@ namespace MandelBrot
                         it++;
                     }
 
-                    if (it < MaxIterations)
+                    mu = it + 1 - Math.Log(Math.Log(ReaZ)) / Math.Log(2);
+                    /* if (it < MaxIterations)
                         if (it % 2 != 0)
                             MandelBit.SetPixel(X, Y, Color.Black);
                         else
                             MandelBit.SetPixel(X, Y, Color.White);
                     else
                         MandelBit.SetPixel(X, Y, Color.Black);
+                    */
+                    MandelBit.SetPixel(X, Y, Colors[it % num_colors]);
 
                     ImaC += dImaC;
                 }
@@ -155,7 +162,15 @@ namespace MandelBrot
             MandelPic.Size = new Size(this.ClientSize.Width, this.ClientSize.Height);
             Reset.Location = new Point(this.ClientSize.Width - 30 - Reset.Size.Width, 0);
             Draw.Location = new Point(this.ClientSize.Width - 30 - Reset.Size.Width - 10 - Draw.Size.Width, 0);
+
+            Colors.Add(Color.Black);
+            Colors.Add(Color.Turquoise);
+            Colors.Add(Color.Purple);
+            Colors.Add(Color.Pink);
+            Colors.Add(Color.Yellow);
+
             DefaultMandel();
+
         }
 
         private void SizeChange(object sender, EventArgs e)
@@ -213,10 +228,28 @@ namespace MandelBrot
             DrawMandel();
         }
 
-        private void MandelPic_MouseDoubleClick(object sender, MouseEventArgs e)
+        private Color MandelColor(double mu)
         {
-            
+            if (it < MaxIterations)
+            {
+                int input1 = (int)mu;
+                double t2 = mu - input1;
+                double t1 = 1 - t2;
+                input1 = input1 % Colors.Count;
+                int input2 = (input1 + 1) % Colors.Count;
+                byte r = (byte)(Colors[input1].R * t1 + Colors[input2].R * t2);
+                byte g = (byte)(Colors[input1].G * t1 + Colors[input2].G * t2);
+                byte b = (byte)(Colors[input1].B * t1 + Colors[input2].B * t2);
+
+                return Color.FromArgb(255, r, g, b);
+            }
+
+            else
+            {
+                return Color.FromArgb(255, 0, 0, 0);
+            }
         }
+
     }
 
 }
