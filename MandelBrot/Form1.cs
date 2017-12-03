@@ -19,22 +19,24 @@ namespace MandelBrot
         }
 
         //private double startX, startY, curX, curY;
-        //private double m_Xmin, m_Xmax, m_Ymin, m_Ymax;
 
-        public int MaxHerhalingen;
-        public int zoom;
+        
+        public int MaxIterations;
+        public double zoom;
+        public double xMidden;
+        public double yMidden;
         //public double Zr, Zim, Z2r, Z2im;
 
         private Bitmap MandelBit;
 
-        private const double minX = -2.2;
-        private const double maxX = 1;
-        private const double minY = -1.2;
-        private const double maxY = 1.2;
-        double m_Xmin = minX;
-        double m_Xmax = maxX;
-        double m_Ymin = minY;
-        double m_Ymax = maxY;
+        private double minX = -2.5;
+        private double maxX = 2;
+        private double minY = -1.2;
+        private double maxY = 1.2;
+        double m_Xmin;
+        double m_Xmax;
+        double m_Ymin;
+        double m_Ymax;
 
         private void AdjustAspect()
         {
@@ -45,7 +47,6 @@ namespace MandelBrot
             if (want_aspect > picCanvas_aspect)
             {
                 // The selected area is too tall and thin.
-                // Make it wider.
                 wid = (m_Ymax - m_Ymin) / picCanvas_aspect;
                 mid = (m_Xmin + m_Xmax) / 2;
                 m_Xmin = mid - wid / 2;
@@ -54,24 +55,39 @@ namespace MandelBrot
             else
             {
                 // The selected area is too short and wide.
-                // Make it taller.
                 hgt = (m_Xmax - m_Xmin) * picCanvas_aspect;
                 mid = (m_Ymin + m_Ymax) / 2;
                 m_Ymin = mid - hgt / 2;
                 m_Ymax = mid + hgt / 2;
             }
         }
-        
-        public void OK_Click(object sender, EventArgs e)
+
+        public void Draw_Click(object sender, EventArgs e)
         {
-            MaxHerhalingen = int.Parse(Herhalingen.Text);
-            zoom = int.Parse(Zoom.Text);
+            zoom = double.Parse(ZoomScale.Text);
+
+            Mid_Zoom();
             DrawMandel();
+        }
+
+        private void Mid_Zoom()
+        {
+            xMidden = double.Parse(xMid.Text);
+            yMidden = double.Parse(yMid.Text);
+
+            m_Xmin = xMidden - ((1 / zoom) * (maxX - minX)) / 2;
+            m_Xmax = xMidden + ((1 / zoom) * (maxX - minX)) / 2;
+            m_Ymin = yMidden - ((1 / zoom) * (maxY - minY)) / 2;
+            m_Ymax = yMidden + ((1 / zoom) * (maxY - minY)) / 2;
+
+            MiddenPuntStatus.Text = ("MidPoint: (" + xMidden + "," + yMidden + ")");
         }
 
         private void DrawMandel()
         {
             const int maxd = 4;
+            MaxIterations = int.Parse(Iterations.Text);
+
             MandelBit = new Bitmap(MandelPic.Width, MandelPic.Height);
             Graphics gr = Graphics.FromImage(MandelBit);
 
@@ -80,7 +96,7 @@ namespace MandelBrot
             Application.DoEvents();
 
             AdjustAspect();
-           
+
             int wid = MandelPic.Width;
             int hgt = MandelPic.Height;
             double dReaC = (m_Xmax - m_Xmin) / (wid - 1);
@@ -98,18 +114,17 @@ namespace MandelBrot
                     double ReaZ2 = 0; //Z2r;
                     double ImaZ2 = 0; //Z2im;
                     int it = 1;
-                    while ((it < MaxHerhalingen) && (ReaZ2 + ImaZ2 < maxd))
+                    while ((it < MaxIterations) && (ReaZ2 + ImaZ2 < maxd))
                     {
-                        // Calculate Z(clr).
+                        // Calculate Z(it).
                         ReaZ2 = ReaZ * ReaZ;
                         ImaZ2 = ImaZ * ImaZ;
                         ImaZ = 2 * ImaZ * ReaZ + ImaC;
                         ReaZ = ReaZ2 - ImaZ2 + ReaC;
                         it++;
                     }
-                    //Console.WriteLine(ImaC);
-                    // Set the pixel's value.
-                    if (it < MaxHerhalingen)
+
+                    if (it < MaxIterations)
                         if (it % 2 != 0)
                             MandelBit.SetPixel(X, Y, Color.Black);
                         else
@@ -126,6 +141,82 @@ namespace MandelBrot
 
         }
 
+        private void Reset_Click(object sender, EventArgs e)
+        {
+            DefaultMandel();
+        }
 
+        private void MandelFormLoad(object sender, EventArgs e)
+        {
+            m_Xmin = minX;
+            m_Xmax = maxX;
+            m_Ymin = minY;
+            m_Ymax = maxY;
+            MandelPic.Size = new Size(this.ClientSize.Width, this.ClientSize.Height);
+            Reset.Location = new Point(this.ClientSize.Width - 30 - Reset.Size.Width, 0);
+            Draw.Location = new Point(this.ClientSize.Width - 30 - Reset.Size.Width - 10 - Draw.Size.Width, 0);
+            DefaultMandel();
+        }
+
+        private void SizeChange(object sender, EventArgs e)
+        {
+            MandelPic.Size = new Size(this.ClientSize.Width, this.ClientSize.Height);
+            Reset.Location = new Point(this.ClientSize.Width - 30 - Reset.Size.Width, 0);
+            Draw.Location = new Point(this.ClientSize.Width - 30 - Reset.Size.Width - 10 - Draw.Size.Width, 0);
+        }
+
+        private void DefaultMandel()
+        {
+            xMid.Text = "0";
+            yMid.Text = "0";
+            ZoomScale.Text = "1";
+            Iterations.Text = "100";
+            minX = -2.5;
+            maxX = 2;
+            minY = -1.2;
+            maxY = 1.2;
+            Mid_Zoom();
+            DrawMandel();
+        }
+
+        private void TextBoxEnter(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                zoom = double.Parse(ZoomScale.Text);
+
+                Mid_Zoom();
+                DrawMandel();
+            }
+        }
+
+        private void XmidLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void xMiddenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripTextBox4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Redraw_Click(object sender, EventArgs e)
+        {
+            zoom = double.Parse(ZoomScale.Text);
+
+            Mid_Zoom();
+            DrawMandel();
+        }
+
+        private void MandelPic_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            
+        }
     }
+
 }
