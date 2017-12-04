@@ -79,8 +79,8 @@ namespace MandelBrot
            
             int wid = MandelPic.Width;
             int hgt = MandelPic.Height;
-            double dReaC = zoom * (m_Xmax - m_Xmin) / (wid - 1);
-            double dImaC = zoom * (m_Ymax - m_Ymin) / (hgt - 1);
+            double dReaC = (m_Xmax - m_Xmin) / (wid - 1);
+            double dImaC = (m_Ymax - m_Ymin) / (hgt - 1);
 
             //int num_colors = Colors.Count;
             double ReaC = m_Xmin;
@@ -111,7 +111,7 @@ namespace MandelBrot
                         else
                             MandelBit.SetPixel(X, Y, Color.White);
                     else
-                        MandelBit.SetPixel(X, Y, Color.Black);
+                        MandelBit.SetPixel(X, Y, Color.Blue);
 
                     ImaC += dImaC;
                 }
