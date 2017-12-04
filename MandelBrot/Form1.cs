@@ -31,8 +31,8 @@ namespace MandelBrot
 
         private double minX = -2.5;
         private double maxX = -2.5;
-        private double minY = -1.2;
-        private double maxY = 1.2;
+        private double minY = -2.5;
+        private double maxY = 2.5;
 
         double m_Xmin;
         double m_Xmax;
@@ -82,7 +82,7 @@ namespace MandelBrot
             m_Ymin = yMidden - ((1 / zoom) * (maxY - minY)) / 2;
             m_Ymax = yMidden + ((1 / zoom) * (maxY - minY)) / 2;
 
-            MiddenPuntStatus.Text = ("MidPoint: (" + xMidden + "," + yMidden + "), Zoom: " + zoom);
+            MiddenPuntStatus.Text = ("MidPoint: (" + xMidden + ";" + yMidden + "), Zoom: " + zoom);
         }
 
         private void DrawMandel()
@@ -139,8 +139,8 @@ namespace MandelBrot
                         }
                         double mu = it + 1 - Math.Log(Math.Log(ReaZ)) / Math.Log(2);
                         mu = mu / MaxIterations * Colors.Count;
-                        //MandelBit.SetPixel(X, Y, MandelColor(mu));
-                        MandelBit.SetPixel(X, Y, Colors[it % Colors.Count]);
+                        MandelBit.SetPixel(X, Y, MandelColor(mu));
+                        //MandelBit.SetPixel(X, Y, Colors[it % Colors.Count]);
                     }
 
                     ImaC += dImaC;
@@ -167,21 +167,14 @@ namespace MandelBrot
             Reset.Location = new Point(this.ClientSize.Width - 30 - Reset.Size.Width, 0);
             Draw.Location = new Point(this.ClientSize.Width - 30 - Reset.Size.Width - 10 - Draw.Size.Width, 0);
 
-            Colors.Add(Color.Turquoise);
-            Colors.Add(Color.Purple);
-            Colors.Add(Color.Pink);
+            Colors.Add(Color.Red);
             Colors.Add(Color.Yellow);
-            Colors.Add(Color.Blue);
+            Colors.Add(Color.Violet);
             Colors.Add(Color.Orange);
-            Colors.Add(Color.Green);
-            Colors.Add(Color.Lime);
-            //Colors.Add(Color.Silver);
-            //Colors.Add(Color.White);
-            //Colors.Add(Color.Tomato);
-            //Colors.Add(Color.Brown);
-            //Colors.Add(Color.Gray);
-            //Colors.Add(Color.Gold);
-            //Colors.Add(Color.Khaki);
+            Colors.Add(Color.LimeGreen);
+            Colors.Add(Color.DeepSkyBlue);
+            Colors.Add(Color.Gray);
+            Colors.Add(Color.Blue);
 
             DefaultMandel();
             Application.DoEvents();
