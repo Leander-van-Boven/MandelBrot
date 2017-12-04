@@ -25,13 +25,12 @@ namespace MandelBrot
         public double zoom;
         public double xMidden;
         public double yMidden;
-        //public double Zr, Zim, Z2r, Z2im;
 
         private Bitmap MandelBit;
         public List<Color> Colors = new List<Color>();
 
         private double minX = -2.5;
-        private double maxX = 2;
+        private double maxX = -2.5;
         private double minY = -1.2;
         private double maxY = 1.2;
 
@@ -40,7 +39,6 @@ namespace MandelBrot
         double m_Ymin;
         double m_Ymax;
         int it;
-        double mu;
 
         private void AdjustAspect()
         {
@@ -84,7 +82,7 @@ namespace MandelBrot
             m_Ymin = yMidden - ((1 / zoom) * (maxY - minY)) / 2;
             m_Ymax = yMidden + ((1 / zoom) * (maxY - minY)) / 2;
 
-            MiddenPuntStatus.Text = ("MidPoint: (" + xMidden + "," + yMidden + ")");
+            MiddenPuntStatus.Text = ("MidPoint: (" + xMidden + "," + yMidden + "), Zoom: " + zoom);
         }
 
         private void DrawMandel()
@@ -113,10 +111,10 @@ namespace MandelBrot
                 double ImaC = m_Ymin;
                 for (int Y = 0; Y < hgt; Y++)
                 {
-                    double ReaZ = 0; //Zr;
-                    double ImaZ = 0; //Zim;
-                    double ReaZ2 = 0; //Z2r;
-                    double ImaZ2 = 0; //Z2im;
+                    double ReaZ = 0;
+                    double ImaZ = 0;
+                    double ReaZ2 = 0;
+                    double ImaZ2 = 0;
                     it = 1;
                     while ((it < MaxIterations) && (ReaZ2 + ImaZ2 < maxd))
                     {
@@ -128,16 +126,22 @@ namespace MandelBrot
                         it++;
                     }
 
-                    mu = it + 1 - Math.Log(Math.Log(ReaZ)) / Math.Log(2);
-                    /* if (it < MaxIterations)
-                        if (it % 2 != 0)
-                            MandelBit.SetPixel(X, Y, Color.Black);
-                        else
-                            MandelBit.SetPixel(X, Y, Color.White);
-                    else
+                    if (it >= MaxIterations)
+                    {
                         MandelBit.SetPixel(X, Y, Color.Black);
-                    */
-                    MandelBit.SetPixel(X, Y, Colors[it % num_colors]);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 3; i++)
+                        {
+                            ReaZ = ReaZ2 - ImaZ2 + ReaC;
+                            it++;
+                        }
+                        double mu = it + 1 - Math.Log(Math.Log(ReaZ)) / Math.Log(2);
+                        mu = mu / MaxIterations * Colors.Count;
+                        //MandelBit.SetPixel(X, Y, MandelColor(mu));
+                        MandelBit.SetPixel(X, Y, Colors[it % Colors.Count]);
+                    }
 
                     ImaC += dImaC;
                 }
@@ -163,14 +167,24 @@ namespace MandelBrot
             Reset.Location = new Point(this.ClientSize.Width - 30 - Reset.Size.Width, 0);
             Draw.Location = new Point(this.ClientSize.Width - 30 - Reset.Size.Width - 10 - Draw.Size.Width, 0);
 
-            Colors.Add(Color.Black);
             Colors.Add(Color.Turquoise);
             Colors.Add(Color.Purple);
             Colors.Add(Color.Pink);
             Colors.Add(Color.Yellow);
+            Colors.Add(Color.Blue);
+            Colors.Add(Color.Orange);
+            Colors.Add(Color.Green);
+            Colors.Add(Color.Lime);
+            //Colors.Add(Color.Silver);
+            //Colors.Add(Color.White);
+            //Colors.Add(Color.Tomato);
+            //Colors.Add(Color.Brown);
+            //Colors.Add(Color.Gray);
+            //Colors.Add(Color.Gold);
+            //Colors.Add(Color.Khaki);
 
             DefaultMandel();
-
+            Application.DoEvents();
         }
 
         private void SizeChange(object sender, EventArgs e)
@@ -192,6 +206,7 @@ namespace MandelBrot
             maxY = 1.2;
             Mid_Zoom();
             DrawMandel();
+            Application.DoEvents();
         }
 
         private void TextBoxEnter(object sender, KeyPressEventArgs e)
@@ -229,9 +244,7 @@ namespace MandelBrot
         }
 
         private Color MandelColor(double mu)
-        {
-            if (it < MaxIterations)
-            {
+        {       
                 int input1 = (int)mu;
                 double t2 = mu - input1;
                 double t1 = 1 - t2;
@@ -242,14 +255,9 @@ namespace MandelBrot
                 byte b = (byte)(Colors[input1].B * t1 + Colors[input2].B * t2);
 
                 return Color.FromArgb(255, r, g, b);
-            }
 
-            else
-            {
-                return Color.FromArgb(255, 0, 0, 0);
-            }
         }
-
+        
     }
 
 }

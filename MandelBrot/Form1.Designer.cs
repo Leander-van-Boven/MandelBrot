@@ -31,6 +31,7 @@ namespace MandelBrot
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Mandelform));
             this.MandelPic = new System.Windows.Forms.PictureBox();
             this.Draw = new System.Windows.Forms.Button();
             this.Reset = new System.Windows.Forms.Button();
@@ -56,6 +57,7 @@ namespace MandelBrot
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.MiddenPuntStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.MousePoint = new System.Windows.Forms.ToolStripStatusLabel();
+            this.experimentalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.MandelPic)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -63,7 +65,7 @@ namespace MandelBrot
             // 
             // MandelPic
             // 
-            this.MandelPic.BackColor = System.Drawing.SystemColors.WindowText;
+            this.MandelPic.BackColor = System.Drawing.SystemColors.MenuText;
             this.MandelPic.Location = new System.Drawing.Point(0, 32);
             this.MandelPic.Margin = new System.Windows.Forms.Padding(4);
             this.MandelPic.Name = "MandelPic";
@@ -207,7 +209,8 @@ namespace MandelBrot
             this.blauwtintenToolStripMenuItem,
             this.roodtintenToolStripMenuItem,
             this.groentintenToolStripMenuItem,
-            this.kleurrijkToolStripMenuItem});
+            this.kleurrijkToolStripMenuItem,
+            this.experimentalToolStripMenuItem});
             this.colorsToolStripMenuItem.Name = "colorsToolStripMenuItem";
             this.colorsToolStripMenuItem.Size = new System.Drawing.Size(63, 24);
             this.colorsToolStripMenuItem.Text = "Colors";
@@ -215,32 +218,32 @@ namespace MandelBrot
             // zwartWitToolStripMenuItem
             // 
             this.zwartWitToolStripMenuItem.Name = "zwartWitToolStripMenuItem";
-            this.zwartWitToolStripMenuItem.Size = new System.Drawing.Size(168, 26);
+            this.zwartWitToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.zwartWitToolStripMenuItem.Text = "Zwart-Wit";
             // 
             // blauwtintenToolStripMenuItem
             // 
             this.blauwtintenToolStripMenuItem.Name = "blauwtintenToolStripMenuItem";
-            this.blauwtintenToolStripMenuItem.Size = new System.Drawing.Size(168, 26);
+            this.blauwtintenToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.blauwtintenToolStripMenuItem.Text = "Blauw-tinten";
             // 
             // roodtintenToolStripMenuItem
             // 
             this.roodtintenToolStripMenuItem.Name = "roodtintenToolStripMenuItem";
-            this.roodtintenToolStripMenuItem.Size = new System.Drawing.Size(168, 26);
+            this.roodtintenToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.roodtintenToolStripMenuItem.Text = "Rood-tinten";
             // 
             // groentintenToolStripMenuItem
             // 
             this.groentintenToolStripMenuItem.Name = "groentintenToolStripMenuItem";
-            this.groentintenToolStripMenuItem.Size = new System.Drawing.Size(168, 26);
+            this.groentintenToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.groentintenToolStripMenuItem.Text = "Groen-tinten";
             // 
             // kleurrijkToolStripMenuItem
             // 
             this.kleurrijkToolStripMenuItem.Name = "kleurrijkToolStripMenuItem";
-            this.kleurrijkToolStripMenuItem.Size = new System.Drawing.Size(168, 26);
-            this.kleurrijkToolStripMenuItem.Text = "Kleurrijk";
+            this.kleurrijkToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.kleurrijkToolStripMenuItem.Text = "Default";
             // 
             // statusStrip1
             // 
@@ -265,6 +268,12 @@ namespace MandelBrot
             this.MousePoint.Name = "MousePoint";
             this.MousePoint.Size = new System.Drawing.Size(0, 20);
             // 
+            // experimentalToolStripMenuItem
+            // 
+            this.experimentalToolStripMenuItem.Name = "experimentalToolStripMenuItem";
+            this.experimentalToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.experimentalToolStripMenuItem.Text = "Experimental";
+            // 
             // Mandelform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -275,6 +284,7 @@ namespace MandelBrot
             this.Controls.Add(this.Draw);
             this.Controls.Add(this.MandelPic);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Mandelform";
             this.Text = "MandelApp";
@@ -318,6 +328,7 @@ namespace MandelBrot
         private ToolStripMenuItem roodtintenToolStripMenuItem;
         private ToolStripMenuItem groentintenToolStripMenuItem;
         private ToolStripMenuItem kleurrijkToolStripMenuItem;
+        private ToolStripMenuItem experimentalToolStripMenuItem;
     }
 }
 
