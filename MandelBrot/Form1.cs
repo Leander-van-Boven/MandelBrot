@@ -145,8 +145,6 @@ namespace MandelBrot
                         EC = it + 1 - Math.Log(Math.Log(ReaZ)) / Math.Log(2);
                         EC = EC / MaxIterations * Colors.Count;
                         Color Color = GetColor();
-                        //MandelBit.SetPixel(X, Y, ExperimentalMandelColor(mu));
-                        //MandelBit.SetPixel(X, Y, Colors[it % Colors.Count]);
                         MandelBit.SetPixel(X, Y, Color);
                     }
 
@@ -176,7 +174,6 @@ namespace MandelBrot
             Draw.Location = new Point(this.ClientSize.Width - 10 - Help_Button.Size.Width - 10 - Reset.Size.Width - 10 - Draw.Size.Width, 1);
             Help_Button.Location = new Point(this.ClientSize.Width - 10 - Help_Button.Size.Width, 1);
 
-
             Colors.Add(Color.SeaGreen);
             Colors.Add(Color.Lime);
             Colors.Add(Color.Violet);
@@ -196,7 +193,9 @@ namespace MandelBrot
             DefaultColors.Add(Color.DarkRed);
 
             DefaultMandel();
+
             Application.DoEvents();
+
         }
 
         private void SizeChange(object sender, EventArgs e)
@@ -228,6 +227,7 @@ namespace MandelBrot
                 string decimalError = "Use the decimal key instead of the dot key as decimal seperator.";
                 string decimalErrorCaption = "Incorrect use of dot key!";
                 MessageBox.Show(decimalError, decimalErrorCaption, MessageBoxButtons.OK);
+
             }
 
             if (e.KeyChar == (char)Keys.Enter)
@@ -315,7 +315,7 @@ namespace MandelBrot
             {
                 Colors.Clear();
                 Colors.Add(Color.MediumVioletRed);
-                Colors.Add(Color.OrangeRed);
+                Colors.Add(Color.Magenta);
                 Colors.Add(Color.Violet);
                 Colors.Add(Color.DeepPink);
                 Colors.Add(Color.PaleVioletRed);
@@ -356,7 +356,7 @@ namespace MandelBrot
 
             else
             {
-                ColorCode = Colors[it % Colors.Count];
+                ColorCode = DefaultColors[it % DefaultColors.Count];
                 return ColorCode;
             }
         }
@@ -425,20 +425,52 @@ namespace MandelBrot
         private void pickDefaultColorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DefaultColorsBox.Location = new Point(MandelPic.Width / 2 - DefaultColorsBox.Width / 2, MandelPic.Height / 2 - DefaultColorsBox.Height / 2);
-            AcceptColors.Location = new Point(MandelPic.Width / 2 - AcceptColors.Width / 2, (MandelPic.Width / 2 - AcceptColors.Height / 2) + DefaultColorsBox.Height);
-            MessageBox.Show("Choose Some Colors and press the 'accept' button.");
+            AcceptColors.Location = new Point(MandelPic.Width / 2 - AcceptColors.Width - 5, MandelPic.Height / 2 + DefaultColorsBox.Height / 2 + 10);
+            CancelColorsButton.Location = new Point(MandelPic.Width / 2 + 5, MandelPic.Height /2 + DefaultColorsBox.Height / 2 + 10);
+            MessageBox.Show("Choose some colors and press 'Accept'.");
 
             DefaultColorsBox.Visible = true;
             AcceptColors.Visible = true;
-
-
-            AcceptColors.Click += new EventHandler(AcceptColors_Click);
+            CancelColorsButton.Visible = true;
         }
 
         private void AcceptColors_Click(object sender, EventArgs e)
         {
+            DefaultColors.Clear();
+            DefaultColors = DefaultColorsBox.CheckedItems.OfType<Color>().ToList();
             DefaultColorsBox.Visible = false;
             AcceptColors.Visible = false;
+            CancelColorsButton.Visible = false;
+
+            Application.DoEvents();
+            DrawMandel();
+        }
+
+        private void CancelButton_Click(object sender, EventArgs e)
+        {
+            DefaultColorsBox.Visible = false;
+            AcceptColors.Visible = false;
+            CancelColorsButton.Visible = false;
+        }
+
+        private void ResetColors_Click(object sender, EventArgs e)
+        {
+            DefaultColors.Clear();
+            DefaultColors.Add(Color.SeaGreen);
+            DefaultColors.Add(Color.Lime);
+            DefaultColors.Add(Color.Violet);
+            DefaultColors.Add(Color.OrangeRed);
+            DefaultColors.Add(Color.SkyBlue);
+            DefaultColors.Add(Color.Yellow);
+            DefaultColors.Add(Color.Gray);
+            DefaultColors.Add(Color.DarkRed);
+
+            foreach(int i in DefaultColorsBox.CheckedIndices)
+            {
+                DefaultColorsBox.SetItemCheckState(i, CheckState.Unchecked);
+            }
+
+            Application.DoEvents();
             DrawMandel();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace MandelBrot
 {
@@ -47,7 +48,6 @@ namespace MandelBrot
             this.Iterations = new System.Windows.Forms.ToolStripTextBox();
             this.scaleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ZoomScale = new System.Windows.Forms.ToolStripTextBox();
-            this.pickDefaultColorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.Redraw = new System.Windows.Forms.ToolStripMenuItem();
             this.colorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,6 +57,9 @@ namespace MandelBrot
             this.redhueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.greenhueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bluehueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.setDefaultColorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ResetColors = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.MiddenPuntStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.MousePoint = new System.Windows.Forms.ToolStripStatusLabel();
@@ -64,6 +67,7 @@ namespace MandelBrot
             this.dlgSaveFile = new System.Windows.Forms.SaveFileDialog();
             this.DefaultColorsBox = new System.Windows.Forms.CheckedListBox();
             this.AcceptColors = new System.Windows.Forms.Button();
+            this.CancelColorsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.MandelPic)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -135,7 +139,6 @@ namespace MandelBrot
             this.yMiddenToolStripMenuItem,
             this.iterationsToolStripMenuItem,
             this.scaleToolStripMenuItem,
-            this.pickDefaultColorsToolStripMenuItem,
             this.toolStripSeparator1,
             this.Redraw});
             this.variablesToolStripMenuItem.Name = "variablesToolStripMenuItem";
@@ -203,13 +206,6 @@ namespace MandelBrot
             this.ZoomScale.Text = "1";
             this.ZoomScale.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxKeyDown);
             // 
-            // pickDefaultColorsToolStripMenuItem
-            // 
-            this.pickDefaultColorsToolStripMenuItem.Name = "pickDefaultColorsToolStripMenuItem";
-            this.pickDefaultColorsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.pickDefaultColorsToolStripMenuItem.Text = "PickDefaultColors";
-            this.pickDefaultColorsToolStripMenuItem.Click += new System.EventHandler(this.pickDefaultColorsToolStripMenuItem_Click);
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -232,7 +228,10 @@ namespace MandelBrot
             this.blackwhitecolorsToolStripMenuItem,
             this.redhueToolStripMenuItem,
             this.greenhueToolStripMenuItem,
-            this.bluehueToolStripMenuItem});
+            this.bluehueToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.setDefaultColorsToolStripMenuItem,
+            this.ResetColors});
             this.colorsToolStripMenuItem.Name = "colorsToolStripMenuItem";
             this.colorsToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.colorsToolStripMenuItem.Text = "&Colors";
@@ -240,44 +239,64 @@ namespace MandelBrot
             // defaultcolorsToolStripMenuItem
             // 
             this.defaultcolorsToolStripMenuItem.Name = "defaultcolorsToolStripMenuItem";
-            this.defaultcolorsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.defaultcolorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.defaultcolorsToolStripMenuItem.Text = "Default";
             this.defaultcolorsToolStripMenuItem.Click += new System.EventHandler(this.defaultcolorsToolStripMenuItem_Click);
             // 
             // experimentalcolorsToolStripMenuItem
             // 
             this.experimentalcolorsToolStripMenuItem.Name = "experimentalcolorsToolStripMenuItem";
-            this.experimentalcolorsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.experimentalcolorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.experimentalcolorsToolStripMenuItem.Text = "Experimental";
             this.experimentalcolorsToolStripMenuItem.Click += new System.EventHandler(this.experimentalcolorsToolStripMenuItem_Click);
             // 
             // blackwhitecolorsToolStripMenuItem
             // 
             this.blackwhitecolorsToolStripMenuItem.Name = "blackwhitecolorsToolStripMenuItem";
-            this.blackwhitecolorsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.blackwhitecolorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.blackwhitecolorsToolStripMenuItem.Text = "Black/White";
             this.blackwhitecolorsToolStripMenuItem.Click += new System.EventHandler(this.blackwhitecolorsToolStripMenuItem_Click);
             // 
             // redhueToolStripMenuItem
             // 
             this.redhueToolStripMenuItem.Name = "redhueToolStripMenuItem";
-            this.redhueToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.redhueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.redhueToolStripMenuItem.Text = "Red-Hue";
             this.redhueToolStripMenuItem.Click += new System.EventHandler(this.redhueToolStripMenuItem_Click);
             // 
             // greenhueToolStripMenuItem
             // 
             this.greenhueToolStripMenuItem.Name = "greenhueToolStripMenuItem";
-            this.greenhueToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.greenhueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.greenhueToolStripMenuItem.Text = "Green-Hue";
             this.greenhueToolStripMenuItem.Click += new System.EventHandler(this.greenhueToolStripMenuItem_Click);
             // 
             // bluehueToolStripMenuItem
             // 
             this.bluehueToolStripMenuItem.Name = "bluehueToolStripMenuItem";
-            this.bluehueToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.bluehueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bluehueToolStripMenuItem.Text = "Blue-Hue";
             this.bluehueToolStripMenuItem.Click += new System.EventHandler(this.bluehueToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            // 
+            // setDefaultColorsToolStripMenuItem
+            // 
+            this.setDefaultColorsToolStripMenuItem.Name = "setDefaultColorsToolStripMenuItem";
+            this.setDefaultColorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.setDefaultColorsToolStripMenuItem.Text = "Set Default Colors";
+            this.setDefaultColorsToolStripMenuItem.Click += new System.EventHandler(this.pickDefaultColorsToolStripMenuItem_Click);
+            // 
+            // ResetColors
+            // 
+            this.ResetColors.Name = "ResetColors";
+            this.ResetColors.Size = new System.Drawing.Size(180, 22);
+            this.ResetColors.Text = "Reset Default Colors";
+            this.ResetColors.ToolTipText = "Resets the current default colors to the initial colors.";
+            this.ResetColors.Click += new System.EventHandler(this.ResetColors_Click);
             // 
             // statusStrip1
             // 
@@ -324,62 +343,75 @@ namespace MandelBrot
             this.DefaultColorsBox.CheckOnClick = true;
             this.DefaultColorsBox.FormattingEnabled = true;
             this.DefaultColorsBox.Items.AddRange(new object[] {
-            "AliceBlue",
-            "Aqua",
-            "Beige",
-            "Black",
-            "Blue",
-            "BlueViolet",
-            "Brown",
-            "Chocolate",
-            "Cyan",
-            "DarkBlue",
-            "DarkGray",
-            "DarkGreen",
-            "DarkOrange",
-            "DarkRed",
-            "DeepPink",
-            "ForestGreen",
-            "Gold",
-            "Green",
-            "GreenYellow",
-            "Indigo",
-            "LightGreen",
-            "Lime",
-            "Magenta",
-            "Navy",
-            "Orange",
-            "OrangeRed",
-            "Purple",
-            "Red",
-            "SkyBlue",
-            "Tomato",
-            "Turquoise",
-            "Violet",
-            "White",
-            "Yellow",
-            "YellowGreen"});
-            this.DefaultColorsBox.Location = new System.Drawing.Point(267, 267);
+            System.Drawing.Color.AliceBlue,
+            System.Drawing.Color.Aqua,
+            System.Drawing.Color.Beige,
+            System.Drawing.Color.Black,
+            System.Drawing.Color.Blue,
+            System.Drawing.Color.BlueViolet,
+            System.Drawing.Color.Brown,
+            System.Drawing.Color.Chocolate,
+            System.Drawing.Color.Cyan,
+            System.Drawing.Color.DarkBlue,
+            System.Drawing.Color.DarkGray,
+            System.Drawing.Color.DarkGreen,
+            System.Drawing.Color.DarkOrange,
+            System.Drawing.Color.DarkRed,
+            System.Drawing.Color.DeepPink,
+            System.Drawing.Color.ForestGreen,
+            System.Drawing.Color.Gold,
+            System.Drawing.Color.Green,
+            System.Drawing.Color.GreenYellow,
+            System.Drawing.Color.Indigo,
+            System.Drawing.Color.LightGreen,
+            System.Drawing.Color.Lime,
+            System.Drawing.Color.Magenta,
+            System.Drawing.Color.Navy,
+            System.Drawing.Color.Orange,
+            System.Drawing.Color.OrangeRed,
+            System.Drawing.Color.Purple,
+            System.Drawing.Color.Red,
+            System.Drawing.Color.SkyBlue,
+            System.Drawing.Color.Tomato,
+            System.Drawing.Color.Turquoise,
+            System.Drawing.Color.Violet,
+            System.Drawing.Color.White,
+            System.Drawing.Color.Yellow,
+            System.Drawing.Color.YellowGreen});
+            this.DefaultColorsBox.Location = new System.Drawing.Point(248, 267);
             this.DefaultColorsBox.Name = "DefaultColorsBox";
-            this.DefaultColorsBox.Size = new System.Drawing.Size(124, 139);
+            this.DefaultColorsBox.Size = new System.Drawing.Size(156, 139);
             this.DefaultColorsBox.TabIndex = 14;
             this.DefaultColorsBox.Visible = false;
             // 
             // AcceptColors
             // 
-            this.AcceptColors.Location = new System.Drawing.Point(290, 412);
+            this.AcceptColors.Location = new System.Drawing.Point(248, 412);
             this.AcceptColors.Name = "AcceptColors";
             this.AcceptColors.Size = new System.Drawing.Size(75, 23);
             this.AcceptColors.TabIndex = 15;
             this.AcceptColors.Text = "Accept";
             this.AcceptColors.UseVisualStyleBackColor = true;
             this.AcceptColors.Visible = false;
+            this.AcceptColors.Click += new System.EventHandler(this.AcceptColors_Click);
+            // 
+            // CancelColorsButton
+            // 
+            this.CancelColorsButton.Location = new System.Drawing.Point(329, 412);
+            this.CancelColorsButton.Name = "CancelColorsButton";
+            this.CancelColorsButton.Size = new System.Drawing.Size(75, 23);
+            this.CancelColorsButton.TabIndex = 16;
+            this.CancelColorsButton.Text = "Cancel";
+            this.CancelColorsButton.UseVisualStyleBackColor = true;
+            this.CancelColorsButton.Visible = false;
+            this.CancelColorsButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // Mandelform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(662, 677);
+            this.Controls.Add(this.CancelColorsButton);
             this.Controls.Add(this.AcceptColors);
             this.Controls.Add(this.DefaultColorsBox);
             this.Controls.Add(this.Help_Button);
@@ -439,9 +471,12 @@ namespace MandelBrot
         private Button Help_Button;
         private ToolStripMenuItem SaveBit;
         internal System.Windows.Forms.SaveFileDialog dlgSaveFile;
-        private ToolStripMenuItem pickDefaultColorsToolStripMenuItem;
         private CheckedListBox DefaultColorsBox;
         private Button AcceptColors;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripMenuItem setDefaultColorsToolStripMenuItem;
+        private ToolStripMenuItem ResetColors;
+        private Button CancelColorsButton;
     }
 }
 
