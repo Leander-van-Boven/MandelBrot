@@ -47,15 +47,16 @@ namespace MandelBrot
             this.Iterations = new System.Windows.Forms.ToolStripTextBox();
             this.scaleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ZoomScale = new System.Windows.Forms.ToolStripTextBox();
+            this.pickDefaultColorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.Redraw = new System.Windows.Forms.ToolStripMenuItem();
             this.colorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.defaultcolorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.experimentalcolorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.blackwhitecolorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bluehueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redhueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.greenhueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bluehueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.MiddenPuntStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.MousePoint = new System.Windows.Forms.ToolStripStatusLabel();
@@ -132,6 +133,7 @@ namespace MandelBrot
             this.yMiddenToolStripMenuItem,
             this.iterationsToolStripMenuItem,
             this.scaleToolStripMenuItem,
+            this.pickDefaultColorsToolStripMenuItem,
             this.toolStripSeparator1,
             this.Redraw});
             this.variablesToolStripMenuItem.Name = "variablesToolStripMenuItem";
@@ -199,6 +201,13 @@ namespace MandelBrot
             this.ZoomScale.Text = "1";
             this.ZoomScale.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxKeyDown);
             // 
+            // pickDefaultColorsToolStripMenuItem
+            // 
+            this.pickDefaultColorsToolStripMenuItem.Name = "pickDefaultColorsToolStripMenuItem";
+            this.pickDefaultColorsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.pickDefaultColorsToolStripMenuItem.Text = "PickDefaultColors";
+            this.pickDefaultColorsToolStripMenuItem.Click += new System.EventHandler(this.pickDefaultColorsToolStripMenuItem_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -229,44 +238,44 @@ namespace MandelBrot
             // defaultcolorsToolStripMenuItem
             // 
             this.defaultcolorsToolStripMenuItem.Name = "defaultcolorsToolStripMenuItem";
-            this.defaultcolorsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.defaultcolorsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.defaultcolorsToolStripMenuItem.Text = "Default";
             this.defaultcolorsToolStripMenuItem.Click += new System.EventHandler(this.defaultcolorsToolStripMenuItem_Click);
             // 
             // experimentalcolorsToolStripMenuItem
             // 
             this.experimentalcolorsToolStripMenuItem.Name = "experimentalcolorsToolStripMenuItem";
-            this.experimentalcolorsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.experimentalcolorsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.experimentalcolorsToolStripMenuItem.Text = "Experimental";
             this.experimentalcolorsToolStripMenuItem.Click += new System.EventHandler(this.experimentalcolorsToolStripMenuItem_Click);
             // 
             // blackwhitecolorsToolStripMenuItem
             // 
             this.blackwhitecolorsToolStripMenuItem.Name = "blackwhitecolorsToolStripMenuItem";
-            this.blackwhitecolorsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.blackwhitecolorsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.blackwhitecolorsToolStripMenuItem.Text = "Black/White";
             this.blackwhitecolorsToolStripMenuItem.Click += new System.EventHandler(this.blackwhitecolorsToolStripMenuItem_Click);
-            // 
-            // bluehueToolStripMenuItem
-            // 
-            this.bluehueToolStripMenuItem.Name = "bluehueToolStripMenuItem";
-            this.bluehueToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.bluehueToolStripMenuItem.Text = "Blue-Hue";
-            this.bluehueToolStripMenuItem.Click += new System.EventHandler(this.bluehueToolStripMenuItem_Click);
             // 
             // redhueToolStripMenuItem
             // 
             this.redhueToolStripMenuItem.Name = "redhueToolStripMenuItem";
-            this.redhueToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.redhueToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.redhueToolStripMenuItem.Text = "Red-Hue";
             this.redhueToolStripMenuItem.Click += new System.EventHandler(this.redhueToolStripMenuItem_Click);
             // 
             // greenhueToolStripMenuItem
             // 
             this.greenhueToolStripMenuItem.Name = "greenhueToolStripMenuItem";
-            this.greenhueToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.greenhueToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.greenhueToolStripMenuItem.Text = "Green-Hue";
             this.greenhueToolStripMenuItem.Click += new System.EventHandler(this.greenhueToolStripMenuItem_Click);
+            // 
+            // bluehueToolStripMenuItem
+            // 
+            this.bluehueToolStripMenuItem.Name = "bluehueToolStripMenuItem";
+            this.bluehueToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.bluehueToolStripMenuItem.Text = "Blue-Hue";
+            this.bluehueToolStripMenuItem.Click += new System.EventHandler(this.bluehueToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -380,6 +389,7 @@ namespace MandelBrot
         private Button Help_Button;
         private ToolStripMenuItem SaveBit;
         internal System.Windows.Forms.SaveFileDialog dlgSaveFile;
+        private ToolStripMenuItem pickDefaultColorsToolStripMenuItem;
     }
 }
 

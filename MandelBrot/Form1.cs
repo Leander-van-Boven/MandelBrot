@@ -405,6 +405,10 @@ namespace MandelBrot
             DrawMandel();
         }
 
+        private void pickDefaultColorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 
 }
