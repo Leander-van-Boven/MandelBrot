@@ -13,15 +13,6 @@ namespace MandelBrot
 {
     public partial class Mandelform : Form
     {
-        public Mandelform()
-        {
-            InitializeComponent();
-
-        }
-
-        //private double startX, startY, curX, curY;
-
-        
         public int MaxIterations;
         public double zoom;
         public double xMidden;
@@ -44,124 +35,14 @@ namespace MandelBrot
         double m_Ymax;
         int it;
 
-        private void AdjustAspect()
+            //
+            //Main Form Voids
+            //
+        public Mandelform()
         {
-            double hgt, wid, mid;
-
-            double want_aspect = (m_Ymax - m_Ymin) / (m_Xmax - m_Xmin);
-            double picCanvas_aspect = MandelPic.ClientSize.Height / (double)MandelPic.ClientSize.Width;
-            if (want_aspect > picCanvas_aspect)
-            {
-                // The selected area is too tall and thin.
-                wid = (m_Ymax - m_Ymin) / picCanvas_aspect;
-                mid = (m_Xmin + m_Xmax) / 2;
-                m_Xmin = mid - wid / 2;
-                m_Xmax = mid + wid / 2;
-            }
-            else
-            {
-                // The selected area is too short and wide.
-                hgt = (m_Xmax - m_Xmin) * picCanvas_aspect;
-                mid = (m_Ymin + m_Ymax) / 2;
-                m_Ymin = mid - hgt / 2;
-                m_Ymax = mid + hgt / 2;
-            }
-        }
-
-        public void Draw_Click(object sender, EventArgs e)
-        {
-            DrawMandel();
-        }
-
-        private void Mid_Zoom()
-        {
-            xMidden = double.Parse(xMid.Text);
-            yMidden = double.Parse(yMid.Text);
-
-            m_Xmin = xMidden - ((1 / zoom) * (maxX - minX)) / 2;
-            m_Xmax = xMidden + ((1 / zoom) * (maxX - minX)) / 2;
-            m_Ymin = yMidden - ((1 / zoom) * (maxY - minY)) / 2;
-            m_Ymax = yMidden + ((1 / zoom) * (maxY - minY)) / 2;
-
-            MiddenPuntStatus.Text = ("MidPoint: (" + xMidden + ";" + yMidden + "), Zoom: " + zoom);
-        }
-
-        private void DrawMandel()
-        {
-            zoom = double.Parse(ZoomScale.Text);
-
-            Mid_Zoom();
-
-            const int maxd = 4;
-            MaxIterations = int.Parse(Iterations.Text);
-
-            MandelBit = new Bitmap(MandelPic.Width, MandelPic.Height);
-            Graphics gr = Graphics.FromImage(MandelBit);
-
-            gr.Clear(MandelPic.BackColor);
-            MandelPic.Image = MandelBit;
-            Application.DoEvents();
-
-            AdjustAspect();
-
-            int wid = MandelPic.Width;
-            int hgt = MandelPic.Height;
-            double dReaC = (m_Xmax - m_Xmin) / (wid - 1);
-            double dImaC = (m_Ymax - m_Ymin) / (hgt - 1);
-
-            int num_colors = Colors.Count;
-            double ReaC = m_Xmin;
-            for (int X = 0; X < wid; X++)
-            {
-                double ImaC = m_Ymin;
-                for (int Y = 0; Y < hgt; Y++)
-                {
-                    double ReaZ = 0;
-                    double ImaZ = 0;
-                    double ReaZ2 = 0;
-                    double ImaZ2 = 0;
-                    it = 1;
-                    while ((it < MaxIterations) && (ReaZ2 + ImaZ2 < maxd))
-                    {
-                        // MandelCalculation
-                        ReaZ2 = ReaZ * ReaZ;
-                        ImaZ2 = ImaZ * ImaZ;
-                        ImaZ = 2 * ImaZ * ReaZ + ImaC;
-                        ReaZ = ReaZ2 - ImaZ2 + ReaC;
-                        it++;
-                    }
-
-                    if (it >= MaxIterations)
-                    {
-                        MandelBit.SetPixel(X, Y, Color.Black);
-                    }
-                    else
-                    {
-                        for (int i = 0; i < 3; i++)
-                        {
-                            ReaZ = ReaZ2 - ImaZ2 + ReaC;
-                            it++;
-                        }
-                        EC = it + 1 - Math.Log(Math.Log(ReaZ)) / Math.Log(2);
-                        EC = EC / MaxIterations * Colors.Count;
-                        Color Color = GetColor();
-                        MandelBit.SetPixel(X, Y, Color);
-                    }
-
-                    ImaC += dImaC;
-                }
-                ReaC += dReaC;
-
-                if (X % 10 == 0) MandelPic.Refresh();
-            }
+            InitializeComponent();
 
         }
-
-        private void Reset_Click(object sender, EventArgs e)
-        {
-            DefaultMandel();
-        }
-
         private void MandelFormLoad(object sender, EventArgs e)
         {
             m_Xmin = minX;
@@ -195,9 +76,7 @@ namespace MandelBrot
             DefaultMandel();
 
             Application.DoEvents();
-
         }
-
         private void SizeChange(object sender, EventArgs e)
         {
             MandelPic.Size = new Size(this.ClientSize.Width, this.ClientSize.Height);
@@ -206,6 +85,108 @@ namespace MandelBrot
             Help_Button.Location = new Point(this.ClientSize.Width - 10 - Help_Button.Size.Width, 1);
         }
 
+            //
+            //Mandel Calculation and drawing Voids
+            //
+        private void AdjustAspect()
+        {
+            double hgt, wid, mid;
+
+            double want_aspect = (m_Ymax - m_Ymin) / (m_Xmax - m_Xmin);
+            double picCanvas_aspect = MandelPic.ClientSize.Height / (double)MandelPic.ClientSize.Width;
+            if (want_aspect > picCanvas_aspect)
+            {
+                // The selected area is too tall and thin.
+                wid = (m_Ymax - m_Ymin) / picCanvas_aspect;
+                mid = (m_Xmin + m_Xmax) / 2;
+                m_Xmin = mid - wid / 2;
+                m_Xmax = mid + wid / 2;
+            }
+            else
+            {
+                // The selected area is too short and wide.
+                hgt = (m_Xmax - m_Xmin) * picCanvas_aspect;
+                mid = (m_Ymin + m_Ymax) / 2;
+                m_Ymin = mid - hgt / 2;
+                m_Ymax = mid + hgt / 2;
+            }
+        }
+        private void Mid_Zoom()
+        {
+            xMidden = double.Parse(xMid.Text);
+            yMidden = double.Parse(yMid.Text);
+
+            m_Xmin = xMidden - ((1 / zoom) * (maxX - minX)) / 2;
+            m_Xmax = xMidden + ((1 / zoom) * (maxX - minX)) / 2;
+            m_Ymin = yMidden - ((1 / zoom) * (maxY - minY)) / 2;
+            m_Ymax = yMidden + ((1 / zoom) * (maxY - minY)) / 2;
+
+            MiddenPuntStatus.Text = ("MidPoint: (" + xMidden + ";" + yMidden + "), Zoom: " + zoom);
+        }
+        private void DrawMandel()
+        {
+            zoom = double.Parse(ZoomScale.Text);
+            Mid_Zoom();
+
+            const int maxd = 4;
+            MaxIterations = int.Parse(Iterations.Text);
+
+            MandelBit = new Bitmap(MandelPic.Width, MandelPic.Height);
+            Graphics gr = Graphics.FromImage(MandelBit);
+            gr.Clear(MandelPic.BackColor);
+            MandelPic.Image = MandelBit;
+            Application.DoEvents();
+
+            AdjustAspect();
+
+            int wid = MandelPic.Width;
+            int hgt = MandelPic.Height;
+            double dReaC = (m_Xmax - m_Xmin) / (wid - 1);
+            double dImaC = (m_Ymax - m_Ymin) / (hgt - 1);
+
+            int num_colors = Colors.Count;
+            double ReaC = m_Xmin;
+            for (int X = 0; X < wid; X++)
+            {
+                double ImaC = m_Ymin;
+                for (int Y = 0; Y < hgt; Y++)
+                {
+                    double ReaZ = 0;
+                    double ImaZ = 0;
+                    double ReaZ2 = 0;
+                    double ImaZ2 = 0;
+                    it = 1;
+                    while ((it < MaxIterations) && (ReaZ2 + ImaZ2 < maxd))
+                    {
+                        // MandelCalculation
+                        ReaZ2 = ReaZ * ReaZ;
+                        ImaZ2 = ImaZ * ImaZ;
+                        ImaZ = 2 * ImaZ * ReaZ + ImaC;
+                        ReaZ = ReaZ2 - ImaZ2 + ReaC;
+                        it++;
+                    }
+                    if (it >= MaxIterations)
+                    {
+                        MandelBit.SetPixel(X, Y, Color.Black);      //Will make the middle of the figure (with iterations = infinite (maxIT)) black. Other Colors wouldn't look as clean.
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 3; i++)
+                        {
+                            ReaZ = ReaZ2 - ImaZ2 + ReaC;
+                            it++;
+                        }
+                        EC = it + 1 - Math.Log(Math.Log(ReaZ)) / Math.Log(2);
+                        EC = EC / MaxIterations * Colors.Count;
+                        Color Color = GetColor();
+                        MandelBit.SetPixel(X, Y, Color);
+                    }
+                    ImaC += dImaC;
+                }
+                ReaC += dReaC;
+                if (X % 10 == 0) MandelPic.Refresh();
+            }
+        }
         private void DefaultMandel()
         {
             xMid.Text = "0";
@@ -220,29 +201,31 @@ namespace MandelBrot
             Application.DoEvents();
         }
 
-        private void TextBoxKeyDown(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == '.')
-            {
-                string decimalError = "Use the decimal key instead of the dot key as decimal seperator.";
-                string decimalErrorCaption = "Incorrect use of dot key!";
-                MessageBox.Show(decimalError, decimalErrorCaption, MessageBoxButtons.OK);
-
-            }
-
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                DrawMandel();
-            }
-
-
-        }
-
-        private void Redraw_Click(object sender, EventArgs e)
+            //
+            //Main Form Buttons
+            //
+        public void Draw_Click(object sender, EventArgs e)
         {
             DrawMandel();
         }
+        private void Reset_Click(object sender, EventArgs e)
+        {
+            DefaultMandel();
+        }
+        private void Help_Button_Click(object sender, EventArgs e)
+        {
+            string Help_Button_Text = "-Use the File menu to save your most beautiful MandelFigures (ctrl + s), \r\n" +
+                "-Use the variables menu to change variables of the figure (type in the textbox and press Enter, " +
+                "or dubble-click somewhere on the picture to zoom on that specific point), \r\n" +
+                "-Use the Colors menu to change the colors of your MandelFigure. \r\n" +
+                "-On the bottom you can see your current Mid_Point and Zoom level.";
+            string Help_Button_Header = "Help";
+            MessageBox.Show(Help_Button_Text, Help_Button_Header, MessageBoxButtons.OK);
+        }
 
+            //
+            //File Menu Voids
+            //
         private void SaveBit_Click(object sender, EventArgs e)
         {
             if (dlgSaveFile.ShowDialog() == DialogResult.OK)
@@ -273,17 +256,34 @@ namespace MandelBrot
             }
         }
 
-        private void Help_Button_Click(object sender, EventArgs e)
+            //
+            //Variables Menu Voids
+            //
+        private void TextBoxKeyDown(object sender, KeyPressEventArgs e)
         {
-            string Help_Button_Text = "-Use the File menu to save your most beautiful MandelFigures (ctrl + s), \r\n" +
-                "-Use the variables menu to change variables of the figure (type in the textbox and press Enter, " +
-                "or dubble-click somewhere on the picture to zoom on that specific point), \r\n" +
-                "-Use the Colors menu to change the colors of your MandelFigure. \r\n" +
-                "-On the bottom you can see your current Mid_Point and Zoom level.";
-            string Help_Button_Header = "Help";
-            MessageBox.Show(Help_Button_Text, Help_Button_Header, MessageBoxButtons.OK);
+            //FailSave to prevent people from using the dot key as decimal seperator (this void may be not needed for countries who use a dot as decimal seperator)
+            if (e.KeyChar == '.') 
+            {
+                string decimalError = "Use the decimal key instead of the dot key as decimal seperator.";
+                string decimalErrorCaption = "Incorrect use of dot key!";
+                MessageBox.Show(decimalError, decimalErrorCaption, MessageBoxButtons.OK);
+            }
+            //Autodraw of MandelFigure after pressing the 'Enter' key in one of the textboxes
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                DrawMandel();
+            }
+        }
+        //This void has the F5 key as hotkey to refresh the figure
+        private void Redraw_Click(object sender, EventArgs e)
+        {
+            DrawMandel();
         }
 
+            //
+            //Colors Menu Voids
+            //
+        //Gets the colors for the figure dependable of the preset and default colors chosen by the user, every preset has 8 default colors.
         private Color GetColor()
         {
             Color ColorCode;
@@ -353,14 +353,12 @@ namespace MandelBrot
                 ColorCode = Colors[it % Colors.Count];
                 return ColorCode;
             }
-
             else
             {
                 ColorCode = DefaultColors[it % DefaultColors.Count];
                 return ColorCode;
             }
         }
-
         private Color ExperimentalMandelColor(double mu)
         {
             if (GetColorCode == 1)
@@ -390,7 +388,7 @@ namespace MandelBrot
                 return Color.FromArgb(255, r, g, b);
             }
         }
-
+        //ColorPresets
         private void defaultcolorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GetColorCode = 1;
@@ -421,7 +419,7 @@ namespace MandelBrot
             GetColorCode = 6;
             DrawMandel();
         }
-
+        //Defaultcolors setting and resetting voids
         private void pickDefaultColorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DefaultColorsBox.Location = new Point(MandelPic.Width / 2 - DefaultColorsBox.Width / 2, MandelPic.Height / 2 - DefaultColorsBox.Height / 2);
@@ -433,7 +431,6 @@ namespace MandelBrot
             AcceptColors.Visible = true;
             CancelColorsButton.Visible = true;
         }
-
         private void AcceptColors_Click(object sender, EventArgs e)
         {
             DefaultColors.Clear();
@@ -441,18 +438,17 @@ namespace MandelBrot
             DefaultColorsBox.Visible = false;
             AcceptColors.Visible = false;
             CancelColorsButton.Visible = false;
+            GetColorCode = 1;
 
             Application.DoEvents();
             DrawMandel();
         }
-
         private void CancelButton_Click(object sender, EventArgs e)
         {
             DefaultColorsBox.Visible = false;
             AcceptColors.Visible = false;
             CancelColorsButton.Visible = false;
         }
-
         private void ResetColors_Click(object sender, EventArgs e)
         {
             DefaultColors.Clear();
@@ -473,6 +469,7 @@ namespace MandelBrot
             Application.DoEvents();
             DrawMandel();
         }
+
     }
 
 }
