@@ -62,6 +62,8 @@ namespace MandelBrot
             this.MousePoint = new System.Windows.Forms.ToolStripStatusLabel();
             this.Help_Button = new System.Windows.Forms.Button();
             this.dlgSaveFile = new System.Windows.Forms.SaveFileDialog();
+            this.DefaultColorsBox = new System.Windows.Forms.CheckedListBox();
+            this.AcceptColors = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.MandelPic)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -317,11 +319,69 @@ namespace MandelBrot
             this.dlgSaveFile.Filter = "Image Files|*.bmp;*.jpg;*.jpeg;*.gif;*.png;*.tif;*.tiff|BMP|*.bmp|JPEG|*.jpg;*.jp" +
     "eg|GIF|*.gif|PNG|*.png|TIFF|*.tif;*.tiff|ALL FILES|*.*";
             // 
+            // DefaultColorsBox
+            // 
+            this.DefaultColorsBox.CheckOnClick = true;
+            this.DefaultColorsBox.FormattingEnabled = true;
+            this.DefaultColorsBox.Items.AddRange(new object[] {
+            "AliceBlue",
+            "Aqua",
+            "Beige",
+            "Black",
+            "Blue",
+            "BlueViolet",
+            "Brown",
+            "Chocolate",
+            "Cyan",
+            "DarkBlue",
+            "DarkGray",
+            "DarkGreen",
+            "DarkOrange",
+            "DarkRed",
+            "DeepPink",
+            "ForestGreen",
+            "Gold",
+            "Green",
+            "GreenYellow",
+            "Indigo",
+            "LightGreen",
+            "Lime",
+            "Magenta",
+            "Navy",
+            "Orange",
+            "OrangeRed",
+            "Purple",
+            "Red",
+            "SkyBlue",
+            "Tomato",
+            "Turquoise",
+            "Violet",
+            "White",
+            "Yellow",
+            "YellowGreen"});
+            this.DefaultColorsBox.Location = new System.Drawing.Point(267, 267);
+            this.DefaultColorsBox.Name = "DefaultColorsBox";
+            this.DefaultColorsBox.Size = new System.Drawing.Size(124, 139);
+            this.DefaultColorsBox.TabIndex = 14;
+            this.DefaultColorsBox.Visible = false;
+            // 
+            // AcceptColors
+            // 
+            this.AcceptColors.Location = new System.Drawing.Point(290, 412);
+            this.AcceptColors.Name = "AcceptColors";
+            this.AcceptColors.Size = new System.Drawing.Size(75, 23);
+            this.AcceptColors.TabIndex = 15;
+            this.AcceptColors.Text = "Accept";
+            this.AcceptColors.UseVisualStyleBackColor = true;
+            this.AcceptColors.Visible = false;
+            // 
             // Mandelform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(662, 677);
+            this.Controls.Add(this.AcceptColors);
+            this.Controls.Add(this.DefaultColorsBox);
             this.Controls.Add(this.Help_Button);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.Reset);
@@ -343,17 +403,7 @@ namespace MandelBrot
 
         }
 
-        private void XmidLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void xMiddenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripTextBox4_Click(object sender, EventArgs e)
         {
 
         }
@@ -390,6 +440,8 @@ namespace MandelBrot
         private ToolStripMenuItem SaveBit;
         internal System.Windows.Forms.SaveFileDialog dlgSaveFile;
         private ToolStripMenuItem pickDefaultColorsToolStripMenuItem;
+        private CheckedListBox DefaultColorsBox;
+        private Button AcceptColors;
     }
 }
 

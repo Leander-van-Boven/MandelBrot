@@ -29,6 +29,7 @@ namespace MandelBrot
 
         private Bitmap MandelBit;
         public List<Color> Colors = new List<Color>();
+        public List<Color> DefaultColors = new List<Color>();
         int GetColorCode;
         double EC;
 
@@ -185,6 +186,15 @@ namespace MandelBrot
             Colors.Add(Color.Gray);
             Colors.Add(Color.DarkRed);
 
+            DefaultColors.Add(Color.SeaGreen);
+            DefaultColors.Add(Color.Lime);
+            DefaultColors.Add(Color.Violet);
+            DefaultColors.Add(Color.OrangeRed);
+            DefaultColors.Add(Color.SkyBlue);
+            DefaultColors.Add(Color.Yellow);
+            DefaultColors.Add(Color.Gray);
+            DefaultColors.Add(Color.DarkRed);
+
             DefaultMandel();
             Application.DoEvents();
         }
@@ -280,16 +290,7 @@ namespace MandelBrot
 
             if (GetColorCode == 1)
             {
-                Colors.Clear();
-                Colors.Add(Color.SeaGreen);
-                Colors.Add(Color.Lime);
-                Colors.Add(Color.DarkRed);
-                Colors.Add(Color.OrangeRed);
-                Colors.Add(Color.SkyBlue);
-                Colors.Add(Color.Yellow);
-                Colors.Add(Color.Gray);
-                Colors.Add(Color.Violet);
-                ColorCode = Colors[it % Colors.Count];
+                ColorCode = DefaultColors[it % DefaultColors.Count];
                 return ColorCode;
             }
             if (GetColorCode == 2)
@@ -362,16 +363,32 @@ namespace MandelBrot
 
         private Color ExperimentalMandelColor(double mu)
         {
-            int input1 = (int)mu;
-            double t2 = mu - input1;
-            double t1 = 1 - t2;
-            input1 = input1 % Colors.Count;
-            int input2 = (input1 + 1) % Colors.Count;
-            byte r = (byte)(Colors[input1].R * t1 + Colors[input2].R * t2);
-            byte g = (byte)(Colors[input1].G * t1 + Colors[input2].G * t2);
-            byte b = (byte)(Colors[input1].B * t1 + Colors[input2].B * t2);
+            if (GetColorCode == 1)
+            {
+                int input1 = (int)mu;
+                double t2 = mu - input1;
+                double t1 = 1 - t2;
+                input1 = input1 % DefaultColors.Count;
+                int input2 = (input1 + 1) % DefaultColors.Count;
+                byte r = (byte)(DefaultColors[input1].R * t1 + DefaultColors[input2].R * t2);
+                byte g = (byte)(DefaultColors[input1].G * t1 + DefaultColors[input2].G * t2);
+                byte b = (byte)(DefaultColors[input1].B * t1 + DefaultColors[input2].B * t2);
 
-            return Color.FromArgb(255, r, g, b);
+                return Color.FromArgb(255, r, g, b);
+            }
+            else
+            {
+                int input1 = (int)mu;
+                double t2 = mu - input1;
+                double t1 = 1 - t2;
+                input1 = input1 % Colors.Count;
+                int input2 = (input1 + 1) % Colors.Count;
+                byte r = (byte)(Colors[input1].R * t1 + Colors[input2].R * t2);
+                byte g = (byte)(Colors[input1].G * t1 + Colors[input2].G * t2);
+                byte b = (byte)(Colors[input1].B * t1 + Colors[input2].B * t2);
+
+                return Color.FromArgb(255, r, g, b);
+            }
         }
 
         private void defaultcolorsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -407,7 +424,22 @@ namespace MandelBrot
 
         private void pickDefaultColorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            DefaultColorsBox.Location = new Point(MandelPic.Width / 2 - DefaultColorsBox.Width / 2, MandelPic.Height / 2 - DefaultColorsBox.Height / 2);
+            AcceptColors.Location = new Point(MandelPic.Width / 2 - AcceptColors.Width / 2, (MandelPic.Width / 2 - AcceptColors.Height / 2) + DefaultColorsBox.Height);
+            MessageBox.Show("Choose Some Colors and press the 'accept' button.");
+
+            DefaultColorsBox.Visible = true;
+            AcceptColors.Visible = true;
+
+
+            AcceptColors.Click += new EventHandler(AcceptColors_Click);
+        }
+
+        private void AcceptColors_Click(object sender, EventArgs e)
+        {
+            DefaultColorsBox.Visible = false;
+            AcceptColors.Visible = false;
+            DrawMandel();
         }
     }
 
