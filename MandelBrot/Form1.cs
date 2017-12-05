@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,8 @@ namespace MandelBrot
 
         private Bitmap MandelBit;
         public List<Color> Colors = new List<Color>();
+        int GetColorCode;
+        double EC;
 
         private double minX = -2.5;
         private double maxX = -2.5;
@@ -66,9 +69,6 @@ namespace MandelBrot
 
         public void Draw_Click(object sender, EventArgs e)
         {
-            zoom = double.Parse(ZoomScale.Text);
-
-            Mid_Zoom();
             DrawMandel();
         }
 
@@ -87,6 +87,10 @@ namespace MandelBrot
 
         private void DrawMandel()
         {
+            zoom = double.Parse(ZoomScale.Text);
+
+            Mid_Zoom();
+
             const int maxd = 4;
             MaxIterations = int.Parse(Iterations.Text);
 
@@ -118,7 +122,7 @@ namespace MandelBrot
                     it = 1;
                     while ((it < MaxIterations) && (ReaZ2 + ImaZ2 < maxd))
                     {
-                        // Calculate Z(it).
+                        // MandelCalculation
                         ReaZ2 = ReaZ * ReaZ;
                         ImaZ2 = ImaZ * ImaZ;
                         ImaZ = 2 * ImaZ * ReaZ + ImaC;
@@ -137,10 +141,12 @@ namespace MandelBrot
                             ReaZ = ReaZ2 - ImaZ2 + ReaC;
                             it++;
                         }
-                        double mu = it + 1 - Math.Log(Math.Log(ReaZ)) / Math.Log(2);
-                        mu = mu / MaxIterations * Colors.Count;
-                        MandelBit.SetPixel(X, Y, MandelColor(mu));
+                        EC = it + 1 - Math.Log(Math.Log(ReaZ)) / Math.Log(2);
+                        EC = EC / MaxIterations * Colors.Count;
+                        Color Color = GetColor();
+                        //MandelBit.SetPixel(X, Y, ExperimentalMandelColor(mu));
                         //MandelBit.SetPixel(X, Y, Colors[it % Colors.Count]);
+                        MandelBit.SetPixel(X, Y, Color);
                     }
 
                     ImaC += dImaC;
@@ -163,18 +169,21 @@ namespace MandelBrot
             m_Xmax = maxX;
             m_Ymin = minY;
             m_Ymax = maxY;
-            MandelPic.Size = new Size(this.ClientSize.Width, this.ClientSize.Height);
-            Reset.Location = new Point(this.ClientSize.Width - 30 - Reset.Size.Width, 0);
-            Draw.Location = new Point(this.ClientSize.Width - 30 - Reset.Size.Width - 10 - Draw.Size.Width, 0);
 
-            Colors.Add(Color.Red);
-            Colors.Add(Color.Yellow);
+            MandelPic.Size = new Size(this.ClientSize.Width, this.ClientSize.Height);
+            Reset.Location = new Point(this.ClientSize.Width - 10 - Help_Button.Size.Width - 10 - Reset.Size.Width, 1);
+            Draw.Location = new Point(this.ClientSize.Width - 10 - Help_Button.Size.Width - 10 - Reset.Size.Width - 10 - Draw.Size.Width, 1);
+            Help_Button.Location = new Point(this.ClientSize.Width - 10 - Help_Button.Size.Width, 1);
+
+
+            Colors.Add(Color.SeaGreen);
+            Colors.Add(Color.Lime);
             Colors.Add(Color.Violet);
-            Colors.Add(Color.Orange);
-            Colors.Add(Color.LimeGreen);
-            Colors.Add(Color.DeepSkyBlue);
+            Colors.Add(Color.OrangeRed);
+            Colors.Add(Color.SkyBlue);
+            Colors.Add(Color.Yellow);
             Colors.Add(Color.Gray);
-            Colors.Add(Color.Blue);
+            Colors.Add(Color.DarkRed);
 
             DefaultMandel();
             Application.DoEvents();
@@ -183,8 +192,9 @@ namespace MandelBrot
         private void SizeChange(object sender, EventArgs e)
         {
             MandelPic.Size = new Size(this.ClientSize.Width, this.ClientSize.Height);
-            Reset.Location = new Point(this.ClientSize.Width - 30 - Reset.Size.Width, 0);
-            Draw.Location = new Point(this.ClientSize.Width - 30 - Reset.Size.Width - 10 - Draw.Size.Width, 0);
+            Reset.Location = new Point(this.ClientSize.Width - 10 - Help_Button.Size.Width - 10 - Reset.Size.Width, 1);
+            Draw.Location = new Point(this.ClientSize.Width - 10 - Help_Button.Size.Width - 10 - Reset.Size.Width - 10 - Draw.Size.Width, 1);
+            Help_Button.Location = new Point(this.ClientSize.Width - 10 - Help_Button.Size.Width, 1);
         }
 
         private void DefaultMandel()
@@ -197,60 +207,204 @@ namespace MandelBrot
             maxX = 2;
             minY = -1.2;
             maxY = 1.2;
-            Mid_Zoom();
             DrawMandel();
             Application.DoEvents();
         }
 
-        private void TextBoxEnter(object sender, KeyPressEventArgs e)
+        private void TextBoxKeyDown(object sender, KeyPressEventArgs e)
         {
+            if (e.KeyChar == '.')
+            {
+                string decimalError = "Use the decimal key instead of the dot key as decimal seperator.";
+                string decimalErrorCaption = "Incorrect use of dot key!";
+                MessageBox.Show(decimalError, decimalErrorCaption, MessageBoxButtons.OK);
+            }
+
             if (e.KeyChar == (char)Keys.Enter)
             {
-                zoom = double.Parse(ZoomScale.Text);
-
-                Mid_Zoom();
                 DrawMandel();
             }
-        }
 
-        private void XmidLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void xMiddenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripTextBox4_Click(object sender, EventArgs e)
-        {
 
         }
 
         private void Redraw_Click(object sender, EventArgs e)
         {
-            zoom = double.Parse(ZoomScale.Text);
-
-            Mid_Zoom();
             DrawMandel();
         }
 
-        private Color MandelColor(double mu)
-        {       
-                int input1 = (int)mu;
-                double t2 = mu - input1;
-                double t1 = 1 - t2;
-                input1 = input1 % Colors.Count;
-                int input2 = (input1 + 1) % Colors.Count;
-                byte r = (byte)(Colors[input1].R * t1 + Colors[input2].R * t2);
-                byte g = (byte)(Colors[input1].G * t1 + Colors[input2].G * t2);
-                byte b = (byte)(Colors[input1].B * t1 + Colors[input2].B * t2);
-
-                return Color.FromArgb(255, r, g, b);
-
+        private void SaveBit_Click(object sender, EventArgs e)
+        {
+            if (dlgSaveFile.ShowDialog() == DialogResult.OK)
+            {
+                MandelBit.Save(dlgSaveFile.FileName);
+                string filename = dlgSaveFile.FileName;
+                string extension = filename.Substring(filename.LastIndexOf("."));
+                switch (extension)
+                {
+                    case ".bmp":
+                        MandelBit.Save(filename, ImageFormat.Bmp);
+                        break;
+                    case ".jpg":
+                    case ".jpeg":
+                        MandelBit.Save(filename, ImageFormat.Jpeg);
+                        break;
+                    case ".gif":
+                        MandelBit.Save(filename, ImageFormat.Gif);
+                        break;
+                    case "png":
+                        MandelBit.Save(filename, ImageFormat.Png);
+                        break;
+                    case ".tif":
+                    case ".tiff":
+                        MandelBit.Save(filename, ImageFormat.Tiff);
+                        break;
+                }
+            }
         }
-        
+
+        private void Help_Button_Click(object sender, EventArgs e)
+        {
+            string Help_Button_Text = "-Use the File menu to save your most beautiful MandelFigures (ctrl + s), \r\n" +
+                "-Use the variables menu to change variables of the figure (type in the textbox and press Enter, " +
+                "or dubble-click somewhere on the picture to zoom on that specific point), \r\n" +
+                "-Use the Colors menu to change the colors of your MandelFigure. \r\n" +
+                "-On the bottom you can see your current Mid_Point and Zoom level.";
+            string Help_Button_Header = "Help";
+            MessageBox.Show(Help_Button_Text, Help_Button_Header, MessageBoxButtons.OK);
+        }
+
+        private Color GetColor()
+        {
+            Color ColorCode;
+
+            if (GetColorCode == 1)
+            {
+                Colors.Clear();
+                Colors.Add(Color.SeaGreen);
+                Colors.Add(Color.Lime);
+                Colors.Add(Color.DarkRed);
+                Colors.Add(Color.OrangeRed);
+                Colors.Add(Color.SkyBlue);
+                Colors.Add(Color.Yellow);
+                Colors.Add(Color.Gray);
+                Colors.Add(Color.Violet);
+                ColorCode = Colors[it % Colors.Count];
+                return ColorCode;
+            }
+            if (GetColorCode == 2)
+            {
+                ColorCode = ExperimentalMandelColor(EC);
+                return ColorCode;
+            }
+            if (GetColorCode == 3)
+            {
+                if (it % 2 != 0)
+                {
+                    ColorCode = Color.Black;
+                    return ColorCode;
+                }
+                else
+                {
+                    ColorCode = Color.White;
+                    return ColorCode;
+                }
+            }
+            if (GetColorCode == 4)
+            {
+                Colors.Clear();
+                Colors.Add(Color.MediumVioletRed);
+                Colors.Add(Color.OrangeRed);
+                Colors.Add(Color.Violet);
+                Colors.Add(Color.DeepPink);
+                Colors.Add(Color.PaleVioletRed);
+                Colors.Add(Color.Red);
+                Colors.Add(Color.DarkRed);
+                Colors.Add(Color.RosyBrown);
+                ColorCode = Colors[it % Colors.Count];
+                return ColorCode;
+            }
+            if (GetColorCode == 5)
+            {
+                Colors.Clear();
+                Colors.Add(Color.Green);
+                Colors.Add(Color.ForestGreen);
+                Colors.Add(Color.LawnGreen);
+                Colors.Add(Color.LimeGreen);
+                Colors.Add(Color.SeaGreen);
+                Colors.Add(Color.YellowGreen);
+                Colors.Add(Color.DarkGreen);
+                Colors.Add(Color.SpringGreen);
+                ColorCode = Colors[it % Colors.Count];
+                return ColorCode;
+            }
+            if (GetColorCode == 6)
+            {
+                Colors.Clear();
+                Colors.Add(Color.BlueViolet);
+                Colors.Add(Color.DeepSkyBlue);
+                Colors.Add(Color.Blue);
+                Colors.Add(Color.Turquoise);
+                Colors.Add(Color.AliceBlue);
+                Colors.Add(Color.MediumBlue);
+                Colors.Add(Color.RoyalBlue);
+                Colors.Add(Color.DarkViolet);
+                ColorCode = Colors[it % Colors.Count];
+                return ColorCode;
+            }
+
+            else
+            {
+                ColorCode = Colors[it % Colors.Count];
+                return ColorCode;
+            }
+        }
+
+        private Color ExperimentalMandelColor(double mu)
+        {
+            int input1 = (int)mu;
+            double t2 = mu - input1;
+            double t1 = 1 - t2;
+            input1 = input1 % Colors.Count;
+            int input2 = (input1 + 1) % Colors.Count;
+            byte r = (byte)(Colors[input1].R * t1 + Colors[input2].R * t2);
+            byte g = (byte)(Colors[input1].G * t1 + Colors[input2].G * t2);
+            byte b = (byte)(Colors[input1].B * t1 + Colors[input2].B * t2);
+
+            return Color.FromArgb(255, r, g, b);
+        }
+
+        private void defaultcolorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GetColorCode = 1;
+            DrawMandel();
+        }
+        private void experimentalcolorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GetColorCode = 2;
+            DrawMandel();
+        }
+        private void blackwhitecolorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GetColorCode = 3;
+            DrawMandel();
+        }
+        private void redhueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GetColorCode = 4;
+            DrawMandel();
+        }
+        private void greenhueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GetColorCode = 5;
+            DrawMandel();
+        }
+        private void bluehueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GetColorCode = 6;
+            DrawMandel();
+        }
+
     }
 
 }
