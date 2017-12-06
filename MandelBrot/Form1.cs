@@ -197,6 +197,10 @@ namespace MandelBrot
             maxX = 2;
             minY = -1.2;
             maxY = 1.2;
+            m_Xmin = minX;
+            m_Xmax = maxX;
+            m_Ymin = minY;
+            m_Ymax = maxY;
             DrawMandel();
             Application.DoEvents();
         }
@@ -470,6 +474,22 @@ namespace MandelBrot
             DrawMandel();
         }
 
+        private void MandelPic_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int MouseX = e.X;
+            int MouseY = e.Y;
+
+            zoom = 2 * zoom;
+            xMidden = m_Xmin + MouseX * ((m_Xmax - m_Xmin) / MandelPic.Width);
+            yMidden = m_Ymin + MouseY * ((m_Ymax - m_Ymin) / MandelPic.Height); 
+
+            ZoomScale.Text = zoom.ToString();
+            xMid.Text = xMidden.ToString();
+            yMid.Text = yMidden.ToString();
+
+            Application.DoEvents();
+            DrawMandel();
+        }
     }
 
 }

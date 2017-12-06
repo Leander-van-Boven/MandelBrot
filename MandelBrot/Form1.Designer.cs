@@ -80,6 +80,7 @@ namespace MandelBrot
             this.MandelPic.Size = new System.Drawing.Size(662, 627);
             this.MandelPic.TabIndex = 0;
             this.MandelPic.TabStop = false;
+            this.MandelPic.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.MandelPic_MouseDoubleClick);
             // 
             // Draw
             // 
