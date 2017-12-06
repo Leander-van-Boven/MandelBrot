@@ -1,13 +1,3 @@
-C:\Users\Leander\source\repos\MandelBrot\MandelBrot\bin\Debug\MandelBrot.exe.config
-C:\Users\Leander\source\repos\MandelBrot\MandelBrot\bin\Debug\MandelBrot.exe
-C:\Users\Leander\source\repos\MandelBrot\MandelBrot\bin\Debug\MandelBrot.pdb
-C:\Users\Leander\source\repos\MandelBrot\MandelBrot\obj\Debug\MandelBrot.csprojResolveAssemblyReference.cache
-C:\Users\Leander\source\repos\MandelBrot\MandelBrot\obj\Debug\MandelBrot.Mandelform.resources
-C:\Users\Leander\source\repos\MandelBrot\MandelBrot\obj\Debug\MandelBrot.Properties.Resources.resources
-C:\Users\Leander\source\repos\MandelBrot\MandelBrot\obj\Debug\MandelBrot.csproj.GenerateResource.Cache
-C:\Users\Leander\source\repos\MandelBrot\MandelBrot\obj\Debug\MandelBrot.csproj.CoreCompileInputs.cache
-C:\Users\Leander\source\repos\MandelBrot\MandelBrot\obj\Debug\MandelBrot.exe
-C:\Users\Leander\source\repos\MandelBrot\MandelBrot\obj\Debug\MandelBrot.pdb
 C:\Users\Leander\Documents\GitHub\MandelBrot\MandelBrot\bin\Debug\MandelBrot.exe.config
 C:\Users\Leander\Documents\GitHub\MandelBrot\MandelBrot\bin\Debug\MandelBrot.exe
 C:\Users\Leander\Documents\GitHub\MandelBrot\MandelBrot\bin\Debug\MandelBrot.pdb
