@@ -204,7 +204,22 @@ namespace MandelBrot
             DrawMandel();
             Application.DoEvents();
         }
+        private void MandelPic_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int MouseX = e.X;
+            int MouseY = e.Y;
 
+            zoom = 2 * zoom;
+            xMidden = m_Xmin + MouseX * ((m_Xmax - m_Xmin) / MandelPic.Width);
+            yMidden = m_Ymin + MouseY * ((m_Ymax - m_Ymin) / MandelPic.Height);
+
+            ZoomScale.Text = zoom.ToString();
+            xMid.Text = xMidden.ToString();
+            yMid.Text = yMidden.ToString();
+
+            Application.DoEvents();
+            DrawMandel();
+        }
             //
             //Main Form Buttons
             //
@@ -220,9 +235,11 @@ namespace MandelBrot
         {
             string Help_Button_Text = "-Use the File menu to save your most beautiful MandelFigures (ctrl + s), \r\n" +
                 "-Use the variables menu to change variables of the figure (type in the textbox and press Enter, " +
-                "or dubble-click somewhere on the picture to zoom on that specific point), \r\n" +
+                "or double-click somewhere on the picture to zoom on that specific point), \r\n" +
                 "-Use the Colors menu to change the colors of your MandelFigure. \r\n" +
+                 "-Choose an even amount of DefaultColors when you want to use the experimental color preset. \r\n" +
                 "-On the bottom you can see your current Mid_Point and Zoom level.";
+
             string Help_Button_Header = "Help";
             MessageBox.Show(Help_Button_Text, Help_Button_Header, MessageBoxButtons.OK);
         }
@@ -364,22 +381,7 @@ namespace MandelBrot
             }
         }
         private Color ExperimentalMandelColor(double mu)
-        {
-            if (GetColorCode == 1)
-            {
-                int input1 = (int)mu;
-                double t2 = mu - input1;
-                double t1 = 1 - t2;
-                input1 = input1 % DefaultColors.Count;
-                int input2 = (input1 + 1) % DefaultColors.Count;
-                byte r = (byte)(DefaultColors[input1].R * t1 + DefaultColors[input2].R * t2);
-                byte g = (byte)(DefaultColors[input1].G * t1 + DefaultColors[input2].G * t2);
-                byte b = (byte)(DefaultColors[input1].B * t1 + DefaultColors[input2].B * t2);
-
-                return Color.FromArgb(255, r, g, b);
-            }
-            else
-            {
+        {           
                 int input1 = (int)mu;
                 double t2 = mu - input1;
                 double t1 = 1 - t2;
@@ -390,7 +392,7 @@ namespace MandelBrot
                 byte b = (byte)(Colors[input1].B * t1 + Colors[input2].B * t2);
 
                 return Color.FromArgb(255, r, g, b);
-            }
+            
         }
         //ColorPresets
         private void defaultcolorsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -400,8 +402,25 @@ namespace MandelBrot
         }
         private void experimentalcolorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GetColorCode = 2;
-            DrawMandel();
+            if (GetColorCode == 1)
+            {
+                if (DefaultColors.Count % 2 != 0)
+                {
+                    MessageBox.Show("Please select an even amount of DefaultColors for the experimental color preset!");
+                }
+                else
+                {
+                    Colors.Clear();
+                    Colors = DefaultColors.ToList();
+                    GetColorCode = 2;
+                    DrawMandel();
+                }
+            }
+            else
+            {
+                GetColorCode = 2;
+                DrawMandel();
+            }
         }
         private void blackwhitecolorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -474,22 +493,6 @@ namespace MandelBrot
             DrawMandel();
         }
 
-        private void MandelPic_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            int MouseX = e.X;
-            int MouseY = e.Y;
-
-            zoom = 2 * zoom;
-            xMidden = m_Xmin + MouseX * ((m_Xmax - m_Xmin) / MandelPic.Width);
-            yMidden = m_Ymin + MouseY * ((m_Ymax - m_Ymin) / MandelPic.Height); 
-
-            ZoomScale.Text = zoom.ToString();
-            xMid.Text = xMidden.ToString();
-            yMid.Text = yMidden.ToString();
-
-            Application.DoEvents();
-            DrawMandel();
-        }
     }
 
 }
